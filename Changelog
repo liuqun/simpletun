@@ -3,3 +3,8 @@
 
 01/09/2009 Changed the way packets are sent over TCP, now all kinds of frames/packets/protocols are supported.
 27/03/2010 Some clean up and reformatting.
+
+2019.03
+----
+
+29/03/2019: CMakeLists.txt added by Liu Qun, then posted on GitHub, see https://github.com/liuqun/simpletun

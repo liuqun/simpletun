@@ -2,12 +2,9 @@ simpletun, a (too) simple tunnelling program.
 
 -------
 
-To compile the program, just do
+Use cmake (version > 3.0) to compile the program
 
-$ gcc simpletun.c -o simpletun
-
-If you have GNU make, you can also exploit implicit targets and do
-
+$ cmake .
 $ make simpletun
 
 -------
