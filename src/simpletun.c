@@ -323,12 +323,15 @@ int main(int argc, char *argv[])
     while (1) {
         int ret;
         fd_set rd_set;
+        fd_set err_watcher_set;
 
         FD_ZERO(&rd_set);
         FD_SET(tap_fd, &rd_set);
         FD_SET(net_fd, &rd_set);
+        FD_ZERO(&err_watcher_set);
+        FD_SET(net_fd, &err_watcher_set);
 
-        ret = select(maxfd + 1, &rd_set, NULL, NULL, NULL);
+        ret = select(maxfd + 1, &rd_set, NULL, &err_watcher_set, NULL);
 
         if (ret < 0 && errno == EINTR) {
             continue;
@@ -336,6 +339,13 @@ int main(int argc, char *argv[])
 
         if (ret < 0) {
             perror("select()");
+            exit(1);
+        }
+
+        if (FD_ISSET(net_fd, &err_watcher_set)) {
+            do_debug("Warning: Got a timeout error: ");
+            do_debug("The remote peer might be dead...\n");
+            do_debug("Program exit\n");
             exit(1);
         }
 
