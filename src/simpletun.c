@@ -364,7 +364,8 @@ int main(int argc, char *argv[])
             /* Read length */
             nread = read_n(net_fd, (char *) &plength, sizeof(plength));
             if (nread == 0) {
-                /* ctrl-c at the other end */
+                do_debug("Info: No more data from remote peer...\n");
+                do_debug("      Break from main loop\n");
                 break;
             }
 
@@ -382,5 +383,6 @@ int main(int argc, char *argv[])
         }
     }
 
+    do_debug("Program quit normally. (FIXME: Do the clean-ups before we quit...)\n");
     return (0);
 }
