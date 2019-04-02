@@ -52,8 +52,7 @@ void do_debug(char *msg, ...)
 {
     va_list argp;
 
-    if (debug)
-    {
+    if (debug) {
         va_start(argp, msg);
         vfprintf(stderr, msg, argp);
         va_end(argp);
@@ -83,8 +82,7 @@ int tun_alloc()
 
     char* tun_file_name = "/dev/net/tun";
 
-    if ((tun_fd = open(tun_file_name, O_RDWR)) < 0)
-    {
+    if ((tun_fd = open(tun_file_name, O_RDWR)) < 0) {
         perror("Open failed ***/dev/net/tun");
         return tun_fd;
     }
@@ -96,8 +94,7 @@ int tun_alloc()
     //memset(ifr.ifr_name, 0, IFNAMSIZ);
     memcpy(ifr.ifr_name, "tun0\0aabbccddaabbccdd", IFNAMSIZ);
 
-    if ((err = ioctl(tun_fd, TUNSETIFF, (void *) &ifr)) < 0)
-    {
+    if ((err = ioctl(tun_fd, TUNSETIFF, (void *) &ifr)) < 0) {
         perror("ioctl(TUNSETIFF)");
         close(tun_fd);
         return err;
@@ -119,14 +116,12 @@ int tun_read(int tap_id)
     FD_ZERO(&read_set);
     FD_SET(tap_id, &read_set);
 
-    if (select(tap_id + 1, &read_set, NULL, NULL, NULL) < 0)
-    {
+    if (select(tap_id + 1, &read_set, NULL, NULL, NULL) < 0) {
         perror("select()");
         exit(1);
     }
 
-    if (FD_ISSET(tap_id, &read_set))
-    {
+    if (FD_ISSET(tap_id, &read_set)) {
         /* data from tun/tap: just read it and write it to the network */
         nread = read(tap_id, read_buffer, read_buffer_size);
 
@@ -142,8 +137,7 @@ int udp_socket()
 {
     int sock_id;
 
-    if ((sock_id = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-    {
+    if ((sock_id = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         perror("socket()");
         exit(1);
     }
@@ -173,8 +167,7 @@ void udp_send(int sock_id)
 int main(int argc, char *argv[])
 {
     int tap_id = tun_alloc();
-    while(1)
-    {
+    while(1) {
         tun_read(tap_id);
     }
 
