@@ -11,3 +11,12 @@ configure_file(${PROJECT_BINARY_DIR}/platform.h.in ${PROJECT_BINARY_DIR}/platfor
 include_directories(${PROJECT_BINARY_DIR})
 aux_source_directory(./src simpletun_SOURCES)
 add_executable(simpletun ${simpletun_SOURCES})
+
+find_package(OpenSSL REQUIRED)
+
+target_include_directories(simpletun PRIVATE
+  ${OPENSSL_INCLUDE_DIR}
+)
+target_link_libraries(simpletun PRIVATE
+  ${OPENSSL_LIBRARIES}
+)
